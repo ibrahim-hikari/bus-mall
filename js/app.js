@@ -122,7 +122,6 @@ function updateTotals() {
     addElement('td', row, '' + thing.shownCtr);
   }
 }
-
 function addElement(tag, container, text) {
   var element = document.createElement(tag);
   container.appendChild(element);
@@ -156,7 +155,7 @@ function clickHandler(event) {
     if(Things.roundCtr === Things.roundLimit) {
 
       alert('No more clicking for you!');
-
+      showChart();
       Things.container.removeEventListener('click', clickHandler);
 
     } else {
@@ -166,8 +165,52 @@ function clickHandler(event) {
   }
 }
 
+function showChart() {
+  var thingsArr = [];
+  var clickArr = [];
+  var showArr = [];
+  for (let i = 0; i < Things.all.length; i++) {
+    var inst = Things.all[i];
+    thingsArr.push(inst.title + 'Vote');
+    thingsArr.push(inst.title + 'Shown');
+    clickArr.push(inst.clickCtr);
+    showArr.push(inst.shownCtr);
+    
+  }
+
+
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels: ['Bag ', 'Banana ', 'Bathroom ', 'Boots ', 'Breakfast ', 'Bubblegum ', 'Chair ','Cthulhu ','Dog-Duck ','Dragon ','Pen ','Pet-Sweep ','Scissors ','Shark ','Sweep ','Tauntaun ','Unicorn ','USB ','Water-Can ','Wine-Glass '],
+        datasets: [
+          {
+            label: 'indecates the voted ones',
+            backgroundColor: ['red','red','red','red','red','red','red','red','red','red','red','red','red','red','red','red','red','red','red','red',],
+            borderColor: ['yellow'],
+            data: clickArr,
+          },
+          {
+            label: 'indicates the shown ones',
+            backgroundColor: ['green','green','green','green','green','green','green','green','green','green','green','green','green','green','green','green','green','green','green','green',],
+            borderColor: ['yellow'] ,
+            data: showArr,
+          }
+      ]
+    },
+    // Configuration options go here
+    options: {}
+});
+}
+
 Things.container.addEventListener('click', clickHandler);
 
 updateTotals();
 
 renderNewThings();
+
+showChart();
