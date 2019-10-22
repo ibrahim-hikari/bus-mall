@@ -3,7 +3,7 @@
   }
   
   body {
-    background:radial-gradient(#c0c0c0, rgb(148, 147, 121),#525050, #000000 ) fixed;
+    background:radial-gradient(rgb(148, 147, 121), rgb(148, 147, 121),#525050, #000000 ) fixed;
     text-align: center;
   }
 

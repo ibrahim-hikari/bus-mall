@@ -166,45 +166,86 @@ function clickHandler(event) {
 }
 
 function showChart() {
-  var thingsArr = [];
+
+  // Modified from https://jsfiddle.net/nagix/bL8hpk6n/
+
+  var titleArr = [];
   var clickArr = [];
   var showArr = [];
-  for (let i = 0; i < Things.all.length; i++) {
-    var inst = Things.all[i];
-    thingsArr.push(inst.title + 'Vote');
-    thingsArr.push(inst.title + 'Shown');
-    clickArr.push(inst.clickCtr);
-    showArr.push(inst.shownCtr);
-    
+
+  for(var i = 0; i < Things.all.length; i++) {
+      var currentProduct = Things.all[i];
+      titleArr.push(currentProduct.title);
+      clickArr.push(currentProduct.clickCtr);
+      showArr.push(currentProduct.shownCtr);
+
   }
 
-
-var ctx = document.getElementById('myChart').getContext('2d');
-var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'bar',
-
-    // The data for our dataset
-    data: {
-        labels: ['Bag ', 'Banana ', 'Bathroom ', 'Boots ', 'Breakfast ', 'Bubblegum ', 'Chair ','Cthulhu ','Dog-Duck ','Dragon ','Pen ','Pet-Sweep ','Scissors ','Shark ','Sweep ','Tauntaun ','Unicorn ','USB ','Water-Can ','Wine-Glass '],
-        datasets: [
-          {
-            label: 'indecates the voted ones',
-            backgroundColor: ['red','red','red','red','red','red','red','red','red','red','red','red','red','red','red','red','red','red','red','red',],
-            borderColor: ['yellow'],
-            data: clickArr,
+  var data = {
+      labels: titleArr,
+      datasets: [{
+        label: "Clicked",
+        backgroundColor: 'rgba(21, 231, 39, 0.411)',
+        borderWidth: 1,
+        data: clickArr,
+        xAxisID: "bar-x-axis1",
+      }, {
+        label: "Shown",
+        backgroundColor: 'rgba(211, 51, 51, 0.424)',
+        borderWidth: 1,
+        data: showArr,
+        xAxisID: "bar-x-axis2",
+      }]
+    };
+    
+    var options = {
+      legend: {
+        labels: {
+            fontColor: "yellow",
+            fontSize: 18
+        }
+      },
+      scales: {
+        xAxes: [{
+          ticks: {
+            fontColor: 'Yellow'
           },
-          {
-            label: 'indicates the shown ones',
-            backgroundColor: ['green','green','green','green','green','green','green','green','green','green','green','green','green','green','green','green','green','green','green','green',],
-            borderColor: ['yellow'] ,
-            data: showArr,
-          }
-      ]
-    },
-    // Configuration options go here
-    options: {}
-});
+          stacked: true,
+          id: "bar-x-axis1",
+          barThickness: 20,
+        }, {
+          display: false,
+          stacked: true,
+          id: "bar-x-axis2",
+          barThickness: 40,
+          // these are needed because the bar controller defaults set only the first x axis properties
+          type: 'category',
+          categoryPercentage: 0.8,
+          barPercentage: 0.9,
+          gridLines: {
+            offsetGridLines: true
+          },
+          offset: true
+        }],
+        yAxes: [{
+          stacked: false,
+          ticks: {
+            beginAtZero: true
+          },
+        }]
+    
+      }
+    };
+    
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var myBarChart = new Chart(ctx, {
+      type: 'bar',
+      data: data,
+      options: options
+    });
+
+
+
 }
 
 Things.container.addEventListener('click', clickHandler);
