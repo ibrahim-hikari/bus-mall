@@ -9,7 +9,7 @@ function populateForm() {
 
   // Add an <option> tag inside the form's select for each product
 
-  var selectElement = document.getElementById('items');
+  var selectElement = document.getElementById('things');
   for (var i in Product.allProducts) {
     var option = document.createElement('option');
     option.value = Product.allProducts[i].name;
@@ -32,14 +32,14 @@ function handleSubmit(event) {
 
 // Add the selected item and quantity to the cart
 function addSelectedItemToCart() {
-  var item = document.getElementById('items').value;
+  var item = document.getElementById('things').value;
   var quantity = document.getElementById('quantity').value;
   cart.addItem(item, quantity);
 }
 
 // TODO: Show the selected item & quantity in the cart div
 function updateCartPreview() {
-  var item = document.getElementById('items').value;
+  var item = document.getElementById('things').value;
   var quantity = document.getElementById('quantity').value;
   var cartOutput = document.getElementById('cartContents');
   var itemElement = document.createElement('div');
